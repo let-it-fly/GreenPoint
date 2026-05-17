@@ -1,0 +1,42 @@
+package edu.dadaev.greenpoint.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Entity(name = "app_user")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column()
+    private String firstName;
+
+    @Column()
+    private String lastName;
+
+    @ColumnDefault("0")
+    private BigDecimal balance;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations;
+
+
+
+}
