@@ -17,9 +17,6 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Resource {
 
     @Id
@@ -29,7 +26,10 @@ public class Resource {
     @Column(nullable = false)
     private String name;
 
-    @Builder.Default
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResourceStatus status = ResourceStatus.AVAILABLE;
@@ -44,7 +44,10 @@ public class Resource {
     @Column(nullable = false)
     private Integer amount;
 
-    @OneToMany(mappedBy = "resource")
+    private String image;
+
+    @OneToMany(mappedBy = "resource", fetch = FetchType.LAZY)
     private List<Reservation> reservations;
+
 
 }

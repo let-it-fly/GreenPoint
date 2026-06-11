@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                                .anyRequest().authenticated());
+                        .requestMatchers("/register").permitAll()
+                         .anyRequest().authenticated());
         http.httpBasic(Customizer.withDefaults());
         return http.build();
     }

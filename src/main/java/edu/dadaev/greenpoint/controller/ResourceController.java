@@ -1,7 +1,9 @@
 package edu.dadaev.greenpoint.controller;
 
+import edu.dadaev.greenpoint.dto.ReservationResponseDTO;
 import edu.dadaev.greenpoint.dto.ResourceRequestDTO;
 import edu.dadaev.greenpoint.dto.ResourceResponseDTO;
+import edu.dadaev.greenpoint.service.ReservationService;
 import edu.dadaev.greenpoint.service.ResourceService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +27,10 @@ public class ResourceController {
     }
 
     @PostMapping("/resources")
-    public ResponseEntity<ResourceResponseDTO> createResource(@RequestBody ResourceRequestDTO resourceRequestDTO){
+    public ResponseEntity<ResourceResponseDTO> createResource(@ModelAttribute ResourceRequestDTO resourceRequestDTO){
         ResourceResponseDTO resourse = resourceService.createResourse(resourceRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(resourse);
     }
+
 }

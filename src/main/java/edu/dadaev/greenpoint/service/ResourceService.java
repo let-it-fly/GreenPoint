@@ -7,6 +7,7 @@ import edu.dadaev.greenpoint.entity.Resource;
 import edu.dadaev.greenpoint.repository.ResourceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class ResourceService {
 
     private ResourceRepository resourceRepo;
     private final ResourceMapper resourceMapper;
+    private S3Client s3Client;
 
     public List<ResourceResponseDTO> getResources(){
         return resourceRepo.findAll().stream().map(resourceMapper::toDTO).toList();

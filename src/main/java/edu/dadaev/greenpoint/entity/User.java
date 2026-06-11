@@ -10,9 +10,6 @@ import java.util.List;
 @Entity(name = "app_user")
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
 
     @Id
@@ -28,15 +25,18 @@ public class User {
     @ColumnDefault("0")
     private BigDecimal balance;
 
+
     @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Transaction> transactions;
 
 
 }

@@ -16,10 +16,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 
     @Query("""
-    SELECT new edu.dadaev.greenpoint.dto.SummaryDTO(u.balance, 
-            (SELECT COUNT(r) FROM Reservation r WHERE r.user.id = u.id AND r.status = 'HOLD') )
-        FROM app_user u
-        WHERE u.id = :userId
+    SELECT new edu.dadaev.greenpoint.dto.SummaryDTO(u.balance)
+    FROM app_user u
+    WHERE u.id = :userId
 """)
     Optional<SummaryDTO> getUserSummary(@Param("userId")Long userId);
 

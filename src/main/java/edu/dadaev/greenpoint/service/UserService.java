@@ -22,6 +22,8 @@ public class UserService {
     public void createUser(UserRequestDTO userRequestDTO){
         User entity = userMapper.toEntity(userRequestDTO);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        entity.setFirstName(userRequestDTO.firstName());
+        entity.setLastName(userRequestDTO.lastName());
         userRepository.save(entity);
         System.out.println("user registered");
 

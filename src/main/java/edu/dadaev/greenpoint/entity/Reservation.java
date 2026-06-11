@@ -2,9 +2,9 @@ package edu.dadaev.greenpoint.entity;
 
 import edu.dadaev.greenpoint.enumerated.ReservationPaymentStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -18,11 +18,11 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
     private User user;
 
@@ -30,7 +30,7 @@ public class Reservation {
 
     private LocalDate endDate;
 
-    private int totalAmount;
+    private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     private ReservationPaymentStatus status;

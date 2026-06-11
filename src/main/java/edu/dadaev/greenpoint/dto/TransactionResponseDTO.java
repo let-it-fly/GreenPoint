@@ -7,11 +7,12 @@ import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 
 /**
  * DTO for {@link Transaction}
  */
 public record TransactionResponseDTO(@JsonSerialize(using = ToStringSerializer.class) Long id, TransactionStatus status, TransactionType type,
-                                     OffsetDateTime createdAt) implements Serializable {
+                                     Instant createdAt) implements Serializable {
 }
