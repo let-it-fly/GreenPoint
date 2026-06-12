@@ -15,6 +15,7 @@ import edu.dadaev.greenpoint.repository.ResourceRepository;
 import edu.dadaev.greenpoint.repository.TransactionRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +23,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReservationService {
 
-    private ReservationRepository reservationRepository;
-    private ResourceRepository resourceRepository;
-    private ReservationMapper reservationMapper;
-    private UserRepository userRepository;
-    private PriceService priceService;
-    private TransactionRepository transactionRepository;
+    private final ReservationRepository reservationRepository;
+    private final ResourceRepository resourceRepository;
+    private final ReservationMapper reservationMapper;
+    private final UserRepository userRepository;
+    private final PriceService priceService;
+    private final TransactionRepository transactionRepository;
 
     public List<ReservationResponseDTO> reservations(Long id){
         return reservationRepository.findAllByUserId(id).stream().map(reservationMapper::toDto).toList();

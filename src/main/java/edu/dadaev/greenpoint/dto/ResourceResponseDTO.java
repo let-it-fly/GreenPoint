@@ -10,5 +10,7 @@ import java.time.OffsetDateTime;
 public record ResourceResponseDTO(@JsonSerialize(using = ToStringSerializer.class) Long id,
                                   String name,
                                   BigDecimal price,
-                                  Integer amount,
-                                  ResourceStatus status) {}
+                                  BigDecimal amount,
+                                  ResourceStatus status,
+                                  String imageUrl,
+                                  @JsonSerialize(using = ToStringSerializer.class) Long ownerId) {}

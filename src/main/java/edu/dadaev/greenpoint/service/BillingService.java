@@ -6,18 +6,19 @@ import edu.dadaev.greenpoint.dto.TransactionResponseDTO;
 import edu.dadaev.greenpoint.repository.TransactionRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BillingService {
 
-    private TransactionRepository transactionRepository;
-    private TransactionMapper transactionMapper;
-    private UserRepository userRepository;
+    private final TransactionRepository transactionRepository;
+    private final TransactionMapper transactionMapper;
+    private final UserRepository userRepository;
 
     public List<TransactionResponseDTO> getTransactions(Long id){
         return transactionRepository.findByUserId(id).stream().map(transactionMapper::toDto).toList();

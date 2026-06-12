@@ -42,7 +42,7 @@ public class Resource {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Integer amount;
+    private BigDecimal amount;
 
     private String image;
 
