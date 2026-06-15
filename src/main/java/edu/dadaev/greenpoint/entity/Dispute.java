@@ -3,6 +3,10 @@ package edu.dadaev.greenpoint.entity;
 import edu.dadaev.greenpoint.enumerated.DisputeStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.Instant;
+
 
 @Entity
 @Getter
@@ -13,19 +17,19 @@ public class Dispute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "renter_id")
     private User renter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner;
 
@@ -33,6 +37,11 @@ public class Dispute {
 
     @Enumerated(EnumType.STRING)
     private DisputeStatus status;
+
+    private String image;
+
+    @CreatedDate
+    private Instant createdAt;
 
 
 }

@@ -1,14 +1,10 @@
 package edu.dadaev.greenpoint.controller;
 
-import edu.dadaev.greenpoint.dto.ReservationResponseDTO;
 import edu.dadaev.greenpoint.dto.ResourceRequestDTO;
 import edu.dadaev.greenpoint.dto.ResourceResponseDTO;
 import edu.dadaev.greenpoint.security.CustomUserDetails;
-import edu.dadaev.greenpoint.service.ReservationService;
 import edu.dadaev.greenpoint.service.ResourceService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

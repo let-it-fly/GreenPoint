@@ -20,7 +20,6 @@ public class UserController {
     @PostMapping("/register")
     public void register(@RequestBody UserRequestDTO userRequestDTO){
         userService.createUser(userRequestDTO);
-
     }
 
     @GetMapping("/users/me")

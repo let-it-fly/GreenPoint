@@ -5,8 +5,8 @@ import edu.dadaev.greenpoint.dto.UserMapper;
 import edu.dadaev.greenpoint.dto.UserRequestDTO;
 import edu.dadaev.greenpoint.dto.UserResponseDTO;
 import edu.dadaev.greenpoint.entity.User;
+import edu.dadaev.greenpoint.enumerated.Role;
 import edu.dadaev.greenpoint.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setFirstName(userRequestDTO.firstName());
         entity.setLastName(userRequestDTO.lastName());
+        entity.setRole(Role.USER);
         userRepository.save(entity);
         System.out.println("user registered");
 

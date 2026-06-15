@@ -1,5 +1,6 @@
 package edu.dadaev.greenpoint.entity;
 
+import edu.dadaev.greenpoint.enumerated.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -24,6 +25,9 @@ public class User {
 
     @ColumnDefault("0")
     private BigDecimal balance;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     @Column(unique = true, nullable = false)

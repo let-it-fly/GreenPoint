@@ -5,6 +5,7 @@ import edu.dadaev.greenpoint.enumerated.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Transaction {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +26,9 @@ public class Transaction {
 
     private BigDecimal amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "reservation_id")
+//    private Reservation reservation;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, updatable = false)

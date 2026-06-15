@@ -1,19 +1,13 @@
 package edu.dadaev.greenpoint;
 
-import edu.dadaev.greenpoint.dto.ResourceResponseDTO;
-import edu.dadaev.greenpoint.entity.Resource;
-import edu.dadaev.greenpoint.repository.ResourceRepository;
-import edu.dadaev.greenpoint.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.core.Authentication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableJpaAuditing
+@EnableScheduling
 @SpringBootApplication
 public class GreenPointApplication {
 

@@ -3,13 +3,11 @@ package edu.dadaev.greenpoint.entity;
 import edu.dadaev.greenpoint.enumerated.ResourceStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 
@@ -42,7 +40,7 @@ public class Resource {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    private BigDecimal securityDeposit;
 
     private String image;
 

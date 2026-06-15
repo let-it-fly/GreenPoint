@@ -1,7 +1,6 @@
 package edu.dadaev.greenpoint.dto;
 
 import edu.dadaev.greenpoint.entity.Resource;
-import edu.dadaev.greenpoint.service.StorageService;
 import edu.dadaev.greenpoint.util.StorageLinkBuilder;
 import org.mapstruct.*;
 

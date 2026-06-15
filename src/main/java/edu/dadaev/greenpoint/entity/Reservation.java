@@ -1,12 +1,11 @@
 package edu.dadaev.greenpoint.entity;
 
-import edu.dadaev.greenpoint.enumerated.ReservationPaymentStatus;
+import edu.dadaev.greenpoint.enumerated.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
@@ -33,8 +32,6 @@ public class Reservation {
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
-    private ReservationPaymentStatus status;
+    private ReservationStatus status;
 
-    @OneToMany(mappedBy = "reservation")
-    private List<Transaction> transactions;
 }

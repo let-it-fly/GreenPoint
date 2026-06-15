@@ -8,8 +8,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -29,6 +32,11 @@ public class BillingController {
     public ResponseEntity<SummaryDTO> getUserSummary(@AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getId();
         return billingService.getUserSummary(userId).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("billing/deposit")
+    public void deposit(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody BigDecimal amount){
+
     }
 
 }
