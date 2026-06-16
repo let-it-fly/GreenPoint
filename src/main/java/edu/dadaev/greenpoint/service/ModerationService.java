@@ -13,6 +13,7 @@ import edu.dadaev.greenpoint.repository.ReservationRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,13 +35,13 @@ public class ModerationService {
 
     @Transactional
     public ReservationResponseDTO createDispute(Long reservationId, DisputeRequestDTO disputeRequestDTO, Long userId){
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(EntityNotFoundException::new);
-        User owner = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(()-> new EntityNotFoundException("бронирование не найдено"));
+        User owner = userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException("владелец ресурса не найден"));
         if (!reservation.getResource().getOwner().getId().equals(userId)){
-            throw new RuntimeException(); //придумать исключение (нельзя создать спор если ты не овнер ресурса)
+            throw new AccessDeniedException("нельзя создать спор если ты не владелец ресурса");
         }
         if (reservation.getStatus() != ReservationStatus.PENDING_RETURN){
-            throw new RuntimeException(); //придумать исключение (нельзя создать спор когда арендатор не вернул товар)
+            throw new IllegalStateException("нельзя создать спор когда арендатор не вернул товар");
         }
         String imageKey = storageService.upload(disputeRequestDTO.image());
 
@@ -62,7 +63,7 @@ public class ModerationService {
     }
 
     public void resolveDispute(Long disputeId, Resolution resolutionEnum){
-        Dispute dispute = disputeRepository.findById(disputeId).orElseThrow(EntityNotFoundException::new);
+        Dispute dispute = disputeRepository.findById(disputeId).orElseThrow(()-> new EntityNotFoundException("спор не найден"));
         Reservation reservation = dispute.getReservation();
         Resource resource = dispute.getResource();
 

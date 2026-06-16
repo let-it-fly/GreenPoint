@@ -1,5 +1,6 @@
 package edu.dadaev.greenpoint.controller;
 
+import edu.dadaev.greenpoint.dto.DepositRequestDTO;
 import edu.dadaev.greenpoint.dto.SummaryDTO;
 import edu.dadaev.greenpoint.dto.TransactionResponseDTO;
 import edu.dadaev.greenpoint.security.CustomUserDetails;
@@ -35,7 +36,8 @@ public class BillingController {
     }
 
     @PostMapping("billing/deposit")
-    public void deposit(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody BigDecimal amount){
+    public void deposit(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody DepositRequestDTO amount){
+        billingService.depositMoney(userDetails.getId(), amount);
 
     }
 

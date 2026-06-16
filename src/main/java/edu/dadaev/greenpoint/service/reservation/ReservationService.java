@@ -8,6 +8,9 @@ import edu.dadaev.greenpoint.entity.User;
 import edu.dadaev.greenpoint.enumerated.DisputeStatus;
 import edu.dadaev.greenpoint.enumerated.ReservationStatus;
 import edu.dadaev.greenpoint.enumerated.ResourceStatus;
+import edu.dadaev.greenpoint.exception.InsufficientFundsException;
+import edu.dadaev.greenpoint.exception.InvalidReservationDateException;
+import edu.dadaev.greenpoint.exception.ResourceBookedException;
 import edu.dadaev.greenpoint.repository.DisputeRepository;
 import edu.dadaev.greenpoint.repository.ReservationRepository;
 import edu.dadaev.greenpoint.repository.ResourceRepository;
@@ -94,26 +97,23 @@ public class ReservationService {
     @Transactional
     public ReservationResponseDTO createReservation(CreateReservationDTO reservationDTO, Long userId){
         if (!reservationDTO.startDate().isAfter(LocalDate.now())){
-            throw new RuntimeException();// придумать исключение
+            throw new InvalidReservationDateException();
         }
         if(!reservationRepository.findConfirmedReservations(reservationDTO.resourceId(), reservationDTO.startDate().minusDays(1), reservationDTO.endDate().plusDays(1)).isEmpty()){
-            //придумать какое то исключение
-            throw new RuntimeException();
+            throw new ResourceBookedException();
         }
-        Resource resource = resourceRepository.findById(reservationDTO.resourceId()).orElseThrow(RuntimeException::new);//
-//        if(resource.getStatus() != ResourceStatus.AVAILABLE){
-//            throw new IllegalArgumentException();//придумать исключение
-//        }
+        Resource resource = resourceRepository.findById(reservationDTO.resourceId()).orElseThrow(EntityNotFoundException::new);
+
         if (resource.getOwner().getId().equals(userId)){
-            throw new RuntimeException(); // придумать исключение: нелзя заброинировать свой ресурс
+            throw new AccessDeniedException("нельзя забронировать свой ресурс");
         }
 
-        User renter = userRepository.findById(userId).orElseThrow(RuntimeException::new); //
+        User renter = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
 
         BigDecimal totalAmount = billingService.calculatePrice(resource.getPrice(), resource.getSecurityDeposit(), reservationDTO.startDate(), reservationDTO.endDate());
         BigDecimal availableBalance = renter.getBalance();
         if (availableBalance.compareTo(totalAmount) < 0){
-            throw new RuntimeException(); //придумать исключение
+            throw new InsufficientFundsException();
         }
         Reservation reservation = new Reservation();
         reservation.setResource(resource);

@@ -24,7 +24,7 @@ public class User {
     private String lastName;
 
     @ColumnDefault("0")
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
     private Role role;

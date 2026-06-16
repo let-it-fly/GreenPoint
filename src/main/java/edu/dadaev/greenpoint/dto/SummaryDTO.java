@@ -2,5 +2,5 @@ package edu.dadaev.greenpoint.dto;
 
 import java.math.BigDecimal;
 
-public record SummaryDTO(BigDecimal balance) {
+public record SummaryDTO(BigDecimal availableBalance) {
 }

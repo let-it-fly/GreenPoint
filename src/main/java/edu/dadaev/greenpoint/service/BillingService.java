@@ -1,14 +1,13 @@
 package edu.dadaev.greenpoint.service;
 
+import edu.dadaev.greenpoint.dto.DepositRequestDTO;
 import edu.dadaev.greenpoint.dto.SummaryDTO;
 import edu.dadaev.greenpoint.dto.TransactionMapper;
 import edu.dadaev.greenpoint.dto.TransactionResponseDTO;
-import edu.dadaev.greenpoint.entity.Reservation;
-import edu.dadaev.greenpoint.entity.Resource;
 import edu.dadaev.greenpoint.entity.Transaction;
 import edu.dadaev.greenpoint.enumerated.TransactionStatus;
 import edu.dadaev.greenpoint.enumerated.TransactionType;
-import edu.dadaev.greenpoint.repository.ReservationRepository;
+import edu.dadaev.greenpoint.exception.FinancialOperationException;
 import edu.dadaev.greenpoint.repository.TransactionRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,7 @@ public class BillingService {
         int rowsUpdated = userRepository.decreaseBalance(userId, amount);
         if (rowsUpdated == 0){
             saveTransaction(userId,amount, TransactionStatus.FAILED,TransactionType.RENT_SPENT);
-            throw new RuntimeException(); // придумать другое исключение
+            throw new FinancialOperationException();
         }
         saveTransaction(userId,amount, TransactionStatus.SUCCESS,TransactionType.RENT_SPENT);
     }
@@ -62,19 +61,19 @@ public class BillingService {
         int rowsUpdated = userRepository.incrementBalance(userId, amount);
         if (rowsUpdated  == 0){
             saveTransaction(userId,amount,TransactionStatus.FAILED,TransactionType.RENT_EARN);
-            throw new RuntimeException();//придумать исключение
+            throw new FinancialOperationException();
         }
         saveTransaction(userId,amount, TransactionStatus.SUCCESS, TransactionType.RENT_EARN);
     }
 
     @Transactional
-    public void depositMoney(Long userId, BigDecimal amount){
-        int rowsUpdated = userRepository.incrementBalance(userId, amount);
+    public void depositMoney(Long userId, DepositRequestDTO depositRequestDTO){
+        int rowsUpdated = userRepository.incrementBalance(userId, depositRequestDTO.amount());
         if (rowsUpdated == 0){
-            saveTransaction(userId,amount,TransactionStatus.FAILED,TransactionType.DEPOSIT);
-            throw new RuntimeException(); // придумать исключение
+            saveTransaction(userId,depositRequestDTO.amount(),TransactionStatus.FAILED,TransactionType.DEPOSIT);
+            throw new FinancialOperationException();
         }
-        saveTransaction(userId,amount,TransactionStatus.SUCCESS,TransactionType.DEPOSIT);
+        saveTransaction(userId,depositRequestDTO.amount(),TransactionStatus.SUCCESS,TransactionType.DEPOSIT);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
