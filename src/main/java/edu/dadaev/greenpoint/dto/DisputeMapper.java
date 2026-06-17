@@ -13,7 +13,7 @@ public interface DisputeMapper {
     @Mapping(source = "reservation.id", target = "reservationId")
     @Mapping(source = "resource.id", target = "resourceId")
     @Mapping(source = "resource.name", target = "resourceName")
-    @Mapping(source = "dispute.image", target = "image", qualifiedByName = "buildFullUrl")
+    @Mapping(source = "dispute.image", target = "evidenceUrl", qualifiedByName = "buildFullUrl")
     DisputeResponseDTO toDto(Dispute dispute);
 
 

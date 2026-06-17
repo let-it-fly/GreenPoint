@@ -11,6 +11,8 @@ import edu.dadaev.greenpoint.exception.FinancialOperationException;
 import edu.dadaev.greenpoint.repository.TransactionRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +31,8 @@ public class BillingService {
     private final TransactionMapper transactionMapper;
     private final UserRepository userRepository;
 
-    public List<TransactionResponseDTO> getTransactions(Long id){
-        return transactionRepository.findByUserId(id).stream().map(transactionMapper::toDto).toList();
+    public Slice<TransactionResponseDTO> getTransactions(Long id, Pageable pageable){
+        return transactionRepository.findByUserId(id, pageable).map(transactionMapper::toDto);
     }
 
     public Optional<SummaryDTO> getUserSummary(Long userId){

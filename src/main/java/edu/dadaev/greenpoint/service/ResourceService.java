@@ -8,6 +8,8 @@ import edu.dadaev.greenpoint.entity.User;
 import edu.dadaev.greenpoint.repository.ResourceRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +25,8 @@ public class ResourceService {
     private final UserRepository userRepository;
 
 
-    public List<ResourceResponseDTO> getResources(){
-        return resourceRepo.findAll().stream().map(resourceMapper::toDTO).toList();
+    public Page<ResourceResponseDTO> getResources(Pageable pageable){
+        return resourceRepo.findAll(pageable).map(resourceMapper::toDTO);
     }
 
     public ResourceResponseDTO createResourse(ResourceRequestDTO resourceRequestDTO, Long ownerId){

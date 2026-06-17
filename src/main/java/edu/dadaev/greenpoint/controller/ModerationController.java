@@ -3,6 +3,7 @@ package edu.dadaev.greenpoint.controller;
 import edu.dadaev.greenpoint.dto.DisputeRequestDTO;
 import edu.dadaev.greenpoint.dto.DisputeResponseDTO;
 import edu.dadaev.greenpoint.dto.ReservationResponseDTO;
+import edu.dadaev.greenpoint.dto.ResolutionRequestDTO;
 import edu.dadaev.greenpoint.enumerated.Resolution;
 import edu.dadaev.greenpoint.security.CustomUserDetails;
 import edu.dadaev.greenpoint.service.ModerationService;
@@ -33,8 +34,8 @@ public class ModerationController {
 
     @PreAuthorize("hasRole('MODERATOR')")
     @PostMapping("/moderation/disputes/{disputeId}/resolve")
-    public void resolveDispute(@PathVariable("disputeId") Long disputeId, @RequestBody Resolution resolutionEnum){
-        moderationService.resolveDispute(disputeId, resolutionEnum);
+    public void resolveDispute(@PathVariable("disputeId") Long disputeId, @RequestBody ResolutionRequestDTO resolutionRequestDTO){
+        moderationService.resolveDispute(disputeId, resolutionRequestDTO);
 
     }
 

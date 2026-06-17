@@ -135,7 +135,7 @@ public class ReservationService {
 
 
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 59 21 * * *")
     public void processDaily(){
         LocalDate today = LocalDate.now();
 

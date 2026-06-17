@@ -8,6 +8,7 @@ import edu.dadaev.greenpoint.entity.User;
 import edu.dadaev.greenpoint.enumerated.DisputeStatus;
 import edu.dadaev.greenpoint.enumerated.ReservationStatus;
 import edu.dadaev.greenpoint.enumerated.Resolution;
+import edu.dadaev.greenpoint.exception.DisputeClosedException;
 import edu.dadaev.greenpoint.repository.DisputeRepository;
 import edu.dadaev.greenpoint.repository.ReservationRepository;
 import edu.dadaev.greenpoint.repository.UserRepository;
@@ -31,8 +32,6 @@ public class ModerationService {
     private final BillingService billingService;
 
 
-
-
     @Transactional
     public ReservationResponseDTO createDispute(Long reservationId, DisputeRequestDTO disputeRequestDTO, Long userId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(()-> new EntityNotFoundException("бронирование не найдено"));
@@ -51,6 +50,8 @@ public class ModerationService {
         dispute.setStatus(DisputeStatus.OPEN);
         dispute.setOwner(owner);
         dispute.setRenter(reservation.getUser());
+        dispute.setResource(reservation.getResource());
+        dispute.setDescription(disputeRequestDTO.description());
 
         disputeRepository.save(dispute);
 
@@ -62,16 +63,22 @@ public class ModerationService {
         return disputeRepository.findAll().stream().map(disputeMapper::toDto).toList();
     }
 
-    public void resolveDispute(Long disputeId, Resolution resolutionEnum){
+    public void resolveDispute(Long disputeId, ResolutionRequestDTO resolutionRequestDTO){
         Dispute dispute = disputeRepository.findById(disputeId).orElseThrow(()-> new EntityNotFoundException("спор не найден"));
+        if (dispute.getStatus() != DisputeStatus.OPEN){
+            throw new DisputeClosedException();
+        }
         Reservation reservation = dispute.getReservation();
         Resource resource = dispute.getResource();
 
-        if (resolutionEnum == Resolution.FAVOR_OWNER){
+        if (resolutionRequestDTO.resolution() == Resolution.FAVOR_OWNER){
             billingService.payMoney(dispute.getOwner().getId(), reservation.getTotalAmount());
+            dispute.setStatus(DisputeStatus.CLOSED);
         }
         else {
             billingService.payMoney(reservation.getUser().getId(), resource.getSecurityDeposit());
+            dispute.setStatus(DisputeStatus.CLOSED);
+
         }
     }
 }

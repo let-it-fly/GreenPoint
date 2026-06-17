@@ -9,11 +9,9 @@ import tools.jackson.databind.ser.std.ToStringSerializer;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 
-/**
- * DTO for {@link Transaction}
- */
+
+
 public record TransactionResponseDTO(@JsonSerialize(using = ToStringSerializer.class) Long id, BigDecimal amount, TransactionStatus status, TransactionType type,
                                      Instant createdAt) implements Serializable {
 }

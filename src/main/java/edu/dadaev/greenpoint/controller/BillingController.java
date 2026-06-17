@@ -6,6 +6,8 @@ import edu.dadaev.greenpoint.dto.TransactionResponseDTO;
 import edu.dadaev.greenpoint.security.CustomUserDetails;
 import edu.dadaev.greenpoint.service.BillingService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +26,8 @@ public class BillingController {
 
 
     @GetMapping("billing/transactions")
-    public ResponseEntity<List<TransactionResponseDTO>> getTransactions(@AuthenticationPrincipal CustomUserDetails userDetails){
-        List<TransactionResponseDTO> transactions = billingService.getTransactions(userDetails.getId());
+    public ResponseEntity<Slice<TransactionResponseDTO>> getTransactions(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable){
+        Slice<TransactionResponseDTO> transactions = billingService.getTransactions(userDetails.getId(), pageable);
         return ResponseEntity.ok(transactions);
     }
 

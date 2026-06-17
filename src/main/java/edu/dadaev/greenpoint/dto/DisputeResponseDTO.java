@@ -7,9 +7,7 @@ import tools.jackson.databind.ser.std.ToStringSerializer;
 import java.io.Serializable;
 import java.time.Instant;
 
-/**
- * DTO for {@link edu.dadaev.greenpoint.entity.Dispute}
- */
+
 public record DisputeResponseDTO(@JsonSerialize(using = ToStringSerializer.class) Long id,
                                  @JsonSerialize(using = ToStringSerializer.class) Long reservationId,
                                  @JsonSerialize(using = ToStringSerializer.class) Long resourceId,
@@ -18,6 +16,6 @@ public record DisputeResponseDTO(@JsonSerialize(using = ToStringSerializer.class
                                  UserResponseDTO owner,
                                  String description,
                                  DisputeStatus status,
-                                 String image,
+                                 String evidenceUrl,
                                  Instant createdAt) implements Serializable {
 }
